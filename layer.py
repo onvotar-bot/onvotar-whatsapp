@@ -10,8 +10,10 @@ _DOB_PATTERN = re.compile('^([0-9]{8})$')
 _ZIP_PATTERN = re.compile('^([0-9]{5})$')
 
 DEFAULT_ERR = (
-    'Hola! Per saber el teu local, '
-    'fes servir aquest format: \n'
+    'Per conèixer el teu col·legi electoral, '
+    'envia un missatge amb les teves dades '
+    'amb les dades separades per espais i '
+    'fent servir aquest format: \n'
     'DNI DATA_NAIXEMENT CODI_POSTAL\n\n'
     'Exemple:\n00001714N 01/10/2017 01234'
 )
@@ -45,7 +47,8 @@ class EchoLayer(YowInterfaceLayer):
             dni, date, cp = self._check_input_data(text)
         except ValueError as e:
             response = str(e)
-            if response == DEFAULT_ERR:
+            if response == 
+            :
                 print('Error: No hi ha 3 dades')
             else:
                 print('Error: {}'.format(response))
