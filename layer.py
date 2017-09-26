@@ -20,6 +20,12 @@ DEFAULT_ERR = (
     'Exemple:\n00001714N 01/10/2017 01234'
 )
 
+DATA_DISCLAIMER = (
+    'Aquest bot utilitza la mateixa tecnologia que '
+    'la web original oficial del Referèndum.\n'
+    'No desa ni mostra als autors cap dada sensible.'
+)
+
 
 class EchoLayer(YowInterfaceLayer):
 
@@ -65,7 +71,8 @@ class EchoLayer(YowInterfaceLayer):
                     'Secció: {}\n'
                     'Mesa: {}'
                 ).format(*result)
-                logger.info('Punt de votacio retornat correctament. %s %s',
+                logger.info(
+                    'Punt de votacio retornat correctament. %s %s',
                     date[:4], cp
                 )
             else:
@@ -81,6 +88,13 @@ class EchoLayer(YowInterfaceLayer):
             response,
             to=messageProtocolEntity.getFrom()
         ))
+        
+        # SPECIAL: DISCLAIMER
+        if response == DEFAULT_ERR:
+            self.toLower(TextMessageProtocolEntity(
+                DATA_DISCLAIMER,
+                to=messageProtocolEntity.getFrom()
+            ))
 
     def _check_input_data(self, text):
         splitted = text.split(' ')
