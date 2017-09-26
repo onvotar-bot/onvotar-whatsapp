@@ -12,7 +12,7 @@ _ZIP_PATTERN = re.compile('^([0-9]{5})$')
 DEFAULT_ERR = (
     'Per conèixer el teu col·legi electoral, '
     'envia un missatge amb les teves dades '
-    'amb les dades separades per espais i '
+    'separades per espais i '
     'fent servir aquest format: \n'
     'DNI DATA_NAIXEMENT CODI_POSTAL\n\n'
     'Exemple:\n00001714N 01/10/2017 01234'
