@@ -1,9 +1,23 @@
 import sys
+import logging
 from yowsup.stacks import YowStackBuilder
 from layer import EchoLayer
 from yowsup.layers.auth import AuthError
 from yowsup.layers import YowLayerEvent
 from yowsup.layers.network import YowNetworkLayer
+
+logFormatter = logging.Formatter("%(asctime)s - %(message)s")
+logger = logging.getLogger()
+
+fileHandler = logging.FileHandler("on_votar.log")
+fileHandler.setFormatter(logFormatter)
+logger.addHandler(fileHandler)
+
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(logFormatter)
+logger.addHandler(consoleHandler)
+
+logger.setLevel(logging.INFO)
 
 
 CREDENTIALS = ("yowsup_id", "yowsup_password")

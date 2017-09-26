@@ -1,9 +1,11 @@
 import re
+import logging
 from yowsup.layers.interface import YowInterfaceLayer
 from yowsup.layers.interface import ProtocolEntityCallback
 from yowsup.layers.protocol_messages.protocolentities.message_text import TextMessageProtocolEntity
 from onvotar import calculate
 
+logger = logging.getLogger()
 
 _DNI_PATTERN = re.compile('^([0-9]{8}[^A-Z]?[A-Z])$')
 _DOB_PATTERN = re.compile('^([0-9]{8})$')
@@ -23,16 +25,13 @@ class EchoLayer(YowInterfaceLayer):
 
     @ProtocolEntityCallback("message")
     def onMessage(self, messageProtocolEntity):
+        short_num = messageProtocolEntity.getFrom(False)[:6]
 
         if messageProtocolEntity.getType() == 'text':
-            print("Message recieved from {}".format(
-                messageProtocolEntity.getFrom(False))
-            )
+            logger.info("Message recieved from %s[...]", short_num)
             self.onTextMessage(messageProtocolEntity)
         else:
-            print("Ignoring media recieved from {}".format(
-                messageProtocolEntity.getFrom(False))
-            )
+            logger.info("Ignoring media recieved from %s[...]", short_num)
 
         self.toLower(messageProtocolEntity.ack())
         self.toLower(messageProtocolEntity.ack(True))
@@ -48,9 +47,9 @@ class EchoLayer(YowInterfaceLayer):
         except ValueError as e:
             response = str(e)
             if response == DEFAULT_ERR:
-                print('Error: No hi ha 3 dades')
+                logger.info('Error: No hi ha 3 dades')
             else:
-                print('Error: {}'.format(response))
+                logger.info('Error: %s', response)
         else:
             result = calculate(dni, date, cp)
             if result:
@@ -60,13 +59,13 @@ class EchoLayer(YowInterfaceLayer):
                     'Secció: {}\n'
                     'Mesa: {}'
                 ).format(*result)
-                print('Punt de votació retornat correctament')
+                logger.info('Punt de votació retornat correctament')
             else:
                 response = (
                     'Alguna de les dades entrades no és correcta.\n'
                     'Revisa-les, si us plau.'
                 )
-                print('Bon format pero dades incorrectes')
+                logger.info('Bon format pero dades incorrectes')
 
         self.toLower(TextMessageProtocolEntity(
             response,
