@@ -25,13 +25,19 @@ class EchoLayer(YowInterfaceLayer):
 
     @ProtocolEntityCallback("message")
     def onMessage(self, messageProtocolEntity):
-        short_num = messageProtocolEntity.getFrom(False)[:6]
+        short_num = messageProtocolEntity.getFrom(False)[:3]
+        hashed_num = hash(messageProtocolEntity.getFrom(False))
 
         if messageProtocolEntity.getType() == 'text':
-            logger.info("Message recieved from %s[...]", short_num)
+            logger.info(
+                'Message recieved from %s... (%s)', short_num, hashed_num)
             self.onTextMessage(messageProtocolEntity)
         else:
-            logger.info("Ignoring media recieved from %s[...]", short_num)
+            logger.info(
+                'Ignoring media recieved from %s... (%s)',
+                short_num,
+                hashed_num
+            )
 
         self.toLower(messageProtocolEntity.ack())
         self.toLower(messageProtocolEntity.ack(True))
@@ -59,13 +65,17 @@ class EchoLayer(YowInterfaceLayer):
                     'Secció: {}\n'
                     'Mesa: {}'
                 ).format(*result)
-                logger.info('Punt de votació retornat correctament')
+                logger.info('Punt de votacio retornat correctament. %s %s',
+                    date[:4], cp
+                )
             else:
                 response = (
                     'Alguna de les dades entrades no és correcta.\n'
                     'Revisa-les, si us plau.'
                 )
                 logger.info('Bon format pero dades incorrectes')
+
+        logger.info('---')
 
         self.toLower(TextMessageProtocolEntity(
             response,

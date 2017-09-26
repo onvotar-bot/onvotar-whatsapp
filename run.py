@@ -39,10 +39,10 @@ class YowsupEchoStack(object):
 
     def start(self):
         try:
-            print("\nIniciant loop...")
+            logger.info("Iniciant loop...")
             self.stack.loop()
         except AuthError as e:
-            print("Authentication Error: %s" % e.message)
+            logger.info("Authentication Error: %s", e.message)
 
 
 def initialize():
@@ -51,13 +51,12 @@ def initialize():
 
 
 def run(stack):
-    try:        
+    try:
         stack.start()
     except KeyboardInterrupt:
-        print("\nHasta nunqui!")
+        logger.info("Hasta nunqui!")
         sys.exit(0)
-    except:
-        print("\nExcepcio descontrolada, tornem a executar")
+
     run(stack)
 
 
