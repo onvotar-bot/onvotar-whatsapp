@@ -56,6 +56,8 @@ def run(stack):
     except KeyboardInterrupt:
         logger.info("Hasta nunqui!")
         sys.exit(0)
+    except Exception as e:
+        logger.info("Unhandled: %s", str(e))
 
     run(stack)
 
