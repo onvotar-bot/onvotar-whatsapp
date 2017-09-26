@@ -47,8 +47,7 @@ class EchoLayer(YowInterfaceLayer):
             dni, date, cp = self._check_input_data(text)
         except ValueError as e:
             response = str(e)
-            if response == 
-            :
+            if response == DEFAULT_ERR:
                 print('Error: No hi ha 3 dades')
             else:
                 print('Error: {}'.format(response))
