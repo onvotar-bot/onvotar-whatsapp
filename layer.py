@@ -15,8 +15,10 @@ class EchoLayer(YowInterfaceLayer):
             text = messageProtocolEntity.getBody()
             if len(text) != 24:
                 response = (
-                    'Hola! Per saber el teu local, '
-                    'fes servir aquest format: \n'
+                    'Hola!\n'
+                    'Per conèixer el teu col·legi electoral, '
+                    'envia un missatge amb les teves dades '
+                    'fent servir aquest format: \n'
                     'DNI DATA_NAIXEMENT CODI_POSTAL\n\n'
                     'Exemple:\n00000000Z AAAAMMDD 01234'
                 )
@@ -52,6 +54,6 @@ class EchoLayer(YowInterfaceLayer):
 
     def onTextMessage(self, messageProtocolEntity):
         # just print info
-        print("Message recieved from {}".format(
+        print("Message received from {}".format(
             messageProtocolEntity.getFrom(False))
         )
